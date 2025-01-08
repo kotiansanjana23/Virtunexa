@@ -1,0 +1,116 @@
+import tkinter as tk
+from tkinter import messagebox
+import time
+import threading
+import winsound 
+
+class CountdownTimerApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Countdown Timer Application")
+        self.root.geometry("400x350")
+        self.root.config(bg="#2e3b4e")
+        
+        self.running = False
+        self.timer_thread = None
+        
+        # Title Label
+        self.title_label = tk.Label(root, text="Countdown Timer", font=("Helvetica", 18, "bold"), bg="#2e3b4e", fg="#ffffff")
+        self.title_label.pack(pady=10)
+
+        # Input Label and Entry
+        self.input_label = tk.Label(root, text="Enter time (e.g., 1.5m or 45.5s):", font=("Helvetica", 12), bg="#2e3b4e", fg="#d4d4d4")
+        self.input_label.pack(pady=5)
+        self.time_input = tk.Entry(root, font=("Helvetica", 14), justify="center")
+        self.time_input.pack(pady=5)
+
+        # Buttons
+        self.quick_buttons_frame = tk.Frame(root, bg="#2e3b4e")
+        self.quick_buttons_frame.pack(pady=10)
+        self.create_quick_buttons()
+
+        # Time Display
+        self.time_display = tk.Label(root, text="00:00.0", font=("Helvetica", 36, "bold"), bg="#2e3b4e", fg="#00ff00")
+        self.time_display.pack(pady=20)
+
+        # Start and Stop Buttons
+        self.start_button = tk.Button(root, text="Start Timer", font=("Helvetica", 14), bg="#007acc", fg="#ffffff", command=self.start_countdown)
+        self.start_button.pack(side=tk.LEFT, padx=20, pady=10)
+
+        self.stop_button = tk.Button(root, text="Stop Timer", font=("Helvetica", 14), bg="#cc0000", fg="#ffffff", state=tk.DISABLED, command=self.stop_countdown)
+        self.stop_button.pack(side=tk.RIGHT, padx=20, pady=10)
+
+    def create_quick_buttons(self):
+        durations = [("1m", 60), ("5m", 300), ("10m", 600), ("30s", 30)]
+        for text, value in durations:
+            btn = tk.Button(self.quick_buttons_frame, text=text, font=("Helvetica", 12), bg="#444", fg="#ffffff", width=5,
+                            command=lambda v=value: self.set_predefined_timer(v))
+            btn.pack(side=tk.LEFT, padx=5)
+
+    def set_predefined_timer(self, seconds):
+        self.time_input.delete(0, tk.END)
+        self.time_input.insert(0, f"{seconds}s")
+        self.start_countdown()
+
+    def start_countdown(self):
+        """Start the countdown timer."""
+        if self.running:  # Prevent multiple starts
+            return
+        try:
+            duration = self.time_input.get().strip()
+            if duration[-1].lower() == "m":
+                self.seconds = float(duration[:-1]) * 60
+            elif duration[-1].lower() == "s":
+                self.seconds = float(duration[:-1])
+            else:
+                raise ValueError("Invalid format")
+            
+            # Disable start button and enable stop button
+            self.start_button.config(state=tk.DISABLED)
+            self.stop_button.config(state=tk.NORMAL)
+            self.running = True
+            
+            # Start countdown in separate thread
+            self.timer_thread = threading.Thread(target=self.countdown_timer)
+            self.timer_thread.start()
+        except ValueError:
+            messagebox.showerror("Input Error", "Please use 'm' for minutes or 's' for seconds (e.g., 1.5m or 45.5s).")
+
+    def countdown_timer(self):
+        """Countdown timer logic."""
+        while self.seconds > 0 and self.running:
+            mins, secs = divmod(self.seconds, 60)
+            secs = round(secs, 1)  # Round to one decimal place
+            timer_text = f"{int(mins):02d}:{secs:04.1f}"  # Format with one decimal
+            self.time_display.config(text=timer_text)
+            time.sleep(0.1)
+            self.seconds -= 0.1
+
+        if self.running:  # Timer finished
+            self.time_display.config(text="00:00.0")
+            self.alert_user()
+        
+        self.reset_buttons()
+
+    def stop_countdown(self):
+        """Stop the countdown."""
+        self.running = False
+        self.reset_buttons()
+        self.time_display.config(text="00:00.0")
+
+    def alert_user(self):
+        """Alert the user with a popup and sound."""
+        winsound.Beep(1000, 500)  # Beep sound
+        messagebox.showinfo("Countdown Completed", "Time's up!")
+
+    def reset_buttons(self):
+        """Reset button states."""
+        self.running = False 
+        self.start_button.config(state=tk.NORMAL)
+        self.stop_button.config(state=tk.DISABLED)
+
+# Run application
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = CountdownTimerApp(root)
+    root.mainloop()
