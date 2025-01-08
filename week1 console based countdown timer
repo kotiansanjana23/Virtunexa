@@ -1,0 +1,212 @@
+import time
+import threading
+
+def countdown_timer(seconds):
+    """
+    Countdown timer that counts down from the given seconds.
+    """
+    while seconds:
+        mins, secs = divmod(seconds, 60)
+        time_format = f"{mins:02}:{secs:02}"
+        print(f"\rTime Remaining: {time_format}", end="")
+        time.sleep(1)
+        seconds -= 1
+    
+    print("\rTime's up! 🎉")
+
+def get_user_input():
+    """
+    Get the countdown duration from the user.
+    """
+    try:
+        print("Welcome to the Countdown Timer!")
+        duration = input("Enter countdown time in the format 'MM:SS' or just seconds: ").strip()
+        if ":" in duration:
+            mins, secs = map(int, duration.split(":"))
+            total_seconds = mins * 60 + secs
+        else:
+            total_seconds = int(duration)
+        
+        if total_seconds <= 0:
+            raise ValueError("Duration must be greater than 0.")
+        
+        return total_seconds
+    except ValueError as e:
+        print(f"Error: {e}")
+        return None
+
+def main():
+    while True:
+        total_seconds = get_user_input()
+        if total_seconds is not None:
+            print("Countdown starting...")
+            timer_thread = threading.Thread(target=countdown_timer, args=(total_seconds,))
+            timer_thread.start()
+            timer_thread.join()
+
+        retry = input("Do you want to set another timer? (yes/no): ").strip().lower()
+        if retry != "yes":
+            print("Goodbye!")
+            break
+
+if __name__ == "__main__":
+    main()
+import time
+import threading
+
+def countdown_timer(seconds):
+    """
+    Countdown timer that counts down from the given seconds.
+    """
+    while seconds:
+        mins, secs = divmod(seconds, 60)
+        time_format = f"{mins:02}:{secs:02}"
+        print(f"\rTime Remaining: {time_format}", end="")
+        time.sleep(1)
+        seconds -= 1
+    
+    print("\rTime's up! 🎉")
+
+def get_user_input():
+    """
+    Get the countdown duration from the user.
+    """
+    try:
+        print("Welcome to the Countdown Timer!")
+        duration = input("Enter countdown time in the format 'MM:SS' or just seconds: ").strip()
+        if ":" in duration:
+            mins, secs = map(int, duration.split(":"))
+            total_seconds = mins * 60 + secs
+        else:
+            total_seconds = int(duration)
+        
+        if total_seconds <= 0:
+            raise ValueError("Duration must be greater than 0.")
+        
+        return total_seconds
+    except ValueError as e:
+        print(f"Error: {e}")
+        return None
+
+def main():
+    while True:
+        total_seconds = get_user_input()
+        if total_seconds is not None:
+            print("Countdown starting...")
+            timer_thread = threading.Thread(target=countdown_timer, args=(total_seconds,))
+            timer_thread.start()
+            timer_thread.join()
+
+        retry = input("Do you want to set another timer? (yes/no): ").strip().lower()
+        if retry != "yes":
+            print("Goodbye!")
+            break
+
+if __name__ == "__main__":
+    main()
+import time
+import threading
+
+def countdown_timer(seconds):
+    """
+    Countdown timer that counts down from the given seconds.
+    """
+    while seconds:
+        mins, secs = divmod(seconds, 60)
+        time_format = f"{mins:02}:{secs:02}"
+        print(f"\rTime Remaining: {time_format}", end="")
+        time.sleep(1)
+        seconds -= 1
+    
+    print("\rTime's up! 🎉")
+
+def get_user_input():
+    """
+    Get the countdown duration from the user.
+    """
+    try:
+        print("Welcome to the Countdown Timer!")
+        duration = input("Enter countdown time in the format 'MM:SS' or just seconds: ").strip()
+        if ":" in duration:
+            mins, secs = map(int, duration.split(":"))
+            total_seconds = mins * 60 + secs
+        else:
+            total_seconds = int(duration)
+        
+        if total_seconds <= 0:
+            raise ValueError("Duration must be greater than 0.")
+        
+        return total_seconds
+    except ValueError as e:
+        print(f"Error: {e}")
+        return None
+
+def main():
+    while True:
+        total_seconds = get_user_input()
+        if total_seconds is not None:
+            print("Countdown starting...")
+            timer_thread = threading.Thread(target=countdown_timer, args=(total_seconds,))
+            timer_thread.start()
+            timer_thread.join()
+
+        retry = input("Do you want to set another timer? (yes/no): ").strip().lower()
+        if retry != "yes":
+            print("Goodbye!")
+            break
+
+if __name__ == "__main__":
+    main()
+import time
+import threading
+
+def countdown_timer(seconds):
+    """
+    Countdown timer that counts down from the given seconds.
+    """
+    while seconds:
+        mins, secs = divmod(seconds, 60)
+        time_format = f"{mins:02}:{secs:02}"
+        print(f"\rTime Remaining: {time_format}", end="")
+        time.sleep(1)
+        seconds -= 1
+    
+    print("\rTime's up! 🎉")
+
+def get_user_input():
+    """
+    Get the countdown duration from the user.
+    """
+    try:
+        print("Welcome to the Countdown Timer!")
+        duration = input("Enter countdown time in the format 'MM:SS' or just seconds: ").strip()
+        if ":" in duration:
+            mins, secs = map(int, duration.split(":"))
+            total_seconds = mins * 60 + secs
+        else:
+            total_seconds = int(duration)
+        
+        if total_seconds <= 0:
+            raise ValueError("Duration must be greater than 0.")
+        
+        return total_seconds
+    except ValueError as e:
+        print(f"Error: {e}")
+        return None
+
+def main():
+    while True:
+        total_seconds = get_user_input()
+        if total_seconds is not None:
+            print("Countdown starting...")
+            timer_thread = threading.Thread(target=countdown_timer, args=(total_seconds,))
+            timer_thread.start()
+            timer_thread.join()
+
+        retry = input("Do you want to set another timer? (yes/no): ").strip().lower()
+        if retry != "yes":
+            print("Goodbye!")
+            break
+
+if __name__ == "__main__":
+    main()
