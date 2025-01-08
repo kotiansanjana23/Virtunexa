@@ -1,0 +1,56 @@
+import requests
+
+# Function to get weather data
+def get_weather(api_key, location):
+    # OpenWeatherMap API URL
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={location}&appid={api_key}&units=metric"
+
+    try:
+        # Send GET request to the API
+        response = requests.get(url)
+        
+        # If the response status is OK (200)
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Extract relevant data
+            city = data['name']
+            temperature = data['main']['temp']
+            humidity = data['main']['humidity']
+            wind_speed = data['wind']['speed']
+            description = data['weather'][0]['description']
+            
+            # Print weather details in a user-friendly format
+            print(f"Weather in {city}:")
+            print(f"Temperature: {temperature}°C")
+            print(f"Humidity: {humidity}%")
+            print(f"Wind Speed: {wind_speed} m/s")
+            print(f"Conditions: {description.capitalize()}")
+        else:
+            print(f"Error: {response.status_code}, unable to fetch data.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Main function to interact with the user
+def main():
+    api_key = "your_openweathermap_api_key_here"  # Replace with your API key
+    print("Welcome to the Weather App!")
+    location = input("Enter a city name (e.g., London): ").strip()
+    
+    # Get weather data for the entered location
+    get_weather(api_key, location)
+
+# Run the main function
+if __name__ == "__main__":
+    main()
+
+OUTPUT:
+Welcome to the Weather App!
+Enter a city name (e.g., London): London
+Weather in London:
+Temperature: 15°C
+Humidity: 73%
+Wind Speed: 4.0 m/s
+Conditions: Light rain
+
+
