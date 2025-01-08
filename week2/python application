@@ -1,0 +1,124 @@
+import random
+import sqlite3
+from datetime import datetime
+
+# SQLite setup for history
+DB_NAME = "application_history.db"
+
+def initialize_db():
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS history (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        category TEXT,
+        details TEXT,
+        result TEXT,
+        timestamp TEXT
+    )
+    """)
+    conn.commit()
+    conn.close()
+
+def save_to_history(category, details, result):
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO history (category, details, result, timestamp) VALUES (?, ?, ?, ?)",
+                   (category, details, result, datetime.now()))
+    conn.commit()
+    conn.close()
+
+def get_history():
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM history ORDER BY timestamp DESC")
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
+
+# Spelling Game
+def spelling_game():
+    words = ["python", "developer", "algorithm", "function", "variable"]
+    random.shuffle(words)
+    score = 0
+    total = len(words)
+    
+    print("\nSpelling Game")
+    print("-" * 30)
+    
+    for word in words:
+        print(f"\nSpell the word (Hint: {len(word)} letters):")
+        user_input = input("Your answer: ").strip()
+        
+        if user_input.lower() == word:
+            print("Correct!")
+            score += 1
+        else:
+            print(f"Incorrect. The correct spelling is: {word}")
+        
+        save_to_history("Spelling Game", f"Word: {word}", f"Correct: {user_input.lower() == word}")
+    
+    print(f"\nGame Over! Your score: {score}/{total}")
+    print("-" * 30)
+
+# Arithmetic Operations
+def arithmetic_calculator():
+    print("\nArithmetic Calculator")
+    print("-" * 30)
+    print("Type 'exit' to return to the main menu.")
+    
+    while True:
+        expression = input("Enter operation (e.g., 5 + 3): ").strip()
+        
+        if expression.lower() == "exit":
+            break
+        
+        try:
+            result = eval(expression)  # Evaluate the expression
+            print(f"Result: {result}")
+            save_to_history("Calculator", expression, str(result))
+        except ZeroDivisionError:
+            print("Error: Division by zero is not allowed.")
+            save_to_history("Calculator", expression, "Error: Division by zero")
+        except Exception as e:
+            print(f"Error: Invalid input. {e}")
+            save_to_history("Calculator", expression, "Error: Invalid input")
+        
+        print("-" * 30)
+
+# View History
+def view_history():
+    print("\nHistory")
+    print("-" * 30)
+    history = get_history()
+    for entry in history:
+        print(f"[{entry[4]}] {entry[1]} - {entry[2]} -> {entry[3]}")
+    print("-" * 30)
+
+# Main Menu
+def main():
+    initialize_db()
+    
+    while True:
+        print("\nMain Menu")
+        print("1. Spelling Game")
+        print("2. Arithmetic Calculator")
+        print("3. View History")
+        print("4. Exit")
+        
+        choice = input("Choose an option: ").strip()
+        
+        if choice == "1":
+            spelling_game()
+        elif choice == "2":
+            arithmetic_calculator()
+        elif choice == "3":
+            view_history()
+        elif choice == "4":
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
