@@ -1,0 +1,82 @@
+Virtual Assistant Documentation
+
+Overview
+
+This virtual assistant is a simple calculator that allows users to perform basic arithmetic operations, view history, and interact using a GUI built with Tkinter. It also stores operation history in an SQLite database and provides history retrieval using Pandas.
+
+Features
+
+Perform basic arithmetic operations (Addition, Subtraction, Multiplication, Division).
+
+Store operation history in an SQLite database.
+
+View history using Pandas.
+
+User-friendly graphical interface using Tkinter.
+
+Handles errors such as invalid inputs and division by zero.
+
+Technologies Used
+
+Python: Core programming language.
+
+SQLite: Database for storing operation history.
+
+Pandas: Used to retrieve and display stored history.
+
+Tkinter: GUI for user interaction.
+
+Installation
+
+Install Python (if not already installed).
+
+Install required dependencies by running:
+
+pip install pandas
+
+Usage
+
+Run the script:
+
+python virtual_assistant.py
+
+Enter two numbers and select an operation from the dropdown.
+
+Click the Calculate button to perform the operation.
+
+Click Show History to view past calculations.
+
+Click Exit to close the application.
+
+Database Schema
+
+The SQLite database (history.db) contains a table named history with the following columns:
+
+id (INTEGER PRIMARY KEY): Unique identifier for each record.
+
+operation (TEXT): The operation performed (e.g., 5 add 3).
+
+result (TEXT): The result of the operation.
+
+Error Handling
+
+Invalid Input: Displays an error if non-numeric values are entered.
+
+Division by Zero: Returns an error message instead of crashing.
+
+Database Errors: Ensures safe database operations with proper commits and closures.
+
+Future Enhancements
+
+Implement voice commands for hands-free operations.
+
+Add more complex mathematical functions.
+
+Export history as a CSV file.
+
+Conclusion
+
+This virtual assistant provides a simple and effective way to perform calculations while keeping track of history. The use of Tkinter enhances user interaction, while SQLite and Pandas ensure data persistence and retrieval.
+
+For further improvements, contributions are welcome!
+
